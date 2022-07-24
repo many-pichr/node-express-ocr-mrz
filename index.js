@@ -37,6 +37,6 @@ app.use('/scan', routes.message);
 
 // * Start * //
 
-app.listen(80, () =>
+app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`),
 );
