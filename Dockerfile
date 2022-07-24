@@ -1,17 +1,8 @@
-FROM node:18-alpine as base
+FROM risingstack/alpine:3.3-v4.2.6-1.1.3
 
-WORKDIR /src
-COPY package*.json /
-EXPOSE 80
+COPY package.json package.json  
+RUN npm install
 
-FROM base as production
-ENV NODE_ENV=production
-RUN npm ci
-COPY . /
-CMD ["node", "bin/www"]
-
-FROM base as dev
-ENV NODE_ENV=development
-RUN npm install -g nodemon && npm install
-COPY . /
-CMD ["nodemon", "bin/www"]
+# Add your source files
+COPY . .  
+CMD ["npm","start"]
