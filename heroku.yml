@@ -1,12 +1,5 @@
-
 build:
-  context: ./
-  target: production
-volumes:
-  - .:/src
-command: npm run start
-ports:
-  - "3000:3000"
-environment:
-  NODE_ENV: production
-  DEBUG: nodejs-docker-express:*
+  docker:
+    web: Dockerfile
+run:
+  web: npm run start
