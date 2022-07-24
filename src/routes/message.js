@@ -35,44 +35,34 @@ router.post('/', async (req, res) => {
   const mrz={};
   var result = {
     status: false,
-    data: {
-      "nationality": "KHM",
-      "age": "24",
-      "expiration_date": "6/23/2025",
-      "gender": "F",
-      "date_of_birth": "3/1/1998",
-      "number": "040436265",
-      "type": "ID",
-      "last_name": "PHAT",
-      "first_name": "SREYNIT"
+    data: null
   }
-  }
-  // await axios.post('https://api.regulaforensics.com/api/process', data,{timeout: 30000})
-  //     .then((res) => {
-  //         console.log('Status:',res.data);
-  //         const items=res.data.ContainerList.List[5].Text.fieldList;
-  //         if(items.length>0){
-  //           for(var i=0;i<items.length;i++){
-  //             const item=items[i];
-  //             if(arrValues.indexOf(i) > -1){
-  //                 mrz[getFieldName(i)]= item.value; 
-  //             }
+  await axios.post('https://api.regulaforensics.com/api/process', data,{timeout: 30000})
+      .then((res) => {
+          console.log('Status:',res.data);
+          const items=res.data.ContainerList.List[5].Text.fieldList;
+          if(items.length>0){
+            for(var i=0;i<items.length;i++){
+              const item=items[i];
+              if(arrValues.indexOf(i) > -1){
+                  mrz[getFieldName(i)]= item.value; 
+              }
               
-  //           }
-  //           result = {
-  //             status: true,
-  //             data: mrz
-  //           }
-  //         }else{
-  //           result = {
-  //             status: false,
-  //             data: null
-  //           }
-  //         }
-  //     }).catch((err) => {
-  //         console.error(err);
-  //     });
-  await delay(3000)
+            }
+            result = {
+              status: true,
+              data: mrz
+            }
+          }else{
+            result = {
+              status: false,
+              data: null
+            }
+          }
+      }).catch((err) => {
+          console.error(err);
+      });
+  // await delay(3000)
   return res.send(result);
 });
 
