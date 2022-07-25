@@ -1,16 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Router } from 'express';
+import {datas} from './data';
 const router = Router();
 const delay = ms => new Promise(res => setTimeout(res, ms));
 router.get('/', (req, res) => {
   return res.send(Object.values(req.context.models.messages));
 });
 function getFieldName(i){
-  const fieldName={0:'nationality',4:'age',8:'expiration_date', 9: 'gender', 11: 'date_of_birth',13: 'number', 15: 'type', 20: 'last_name', 21: 'first_name'}
-  return fieldName[i]?fieldName[i]:'field'+i;
+  const fieldName={26:'nationality',185:'age',3:'expiration_date', 12: 'gender', 5: 'date_of_birth',2: 'number', 0: 'type', 8: 'last_name', 9: 'first_name'}
+  return fieldName[i];
 }
-const arrValues = [0,4,8,9,11,13,15,20,21]
-
 router.get('/:messageId', (req, res) => {
   return res.send(req.context.models.messages[req.params.messageId]);
 });
@@ -35,7 +34,7 @@ router.post('/', async (req, res) => {
   const mrz={};
   var result = {
     status: false,
-    data: null
+    data: data
   }
   await axios.post('https://api.regulaforensics.com/api/process', data,{timeout: 30000})
       .then((res) => {
@@ -44,12 +43,11 @@ router.post('/', async (req, res) => {
           if(items.length>0){
             for(var i=0;i<items.length;i++){
               const item=items[i];
-              if(arrValues.indexOf(i) > -1){
-                  mrz[getFieldName(i)]= item.value; 
-              }
-              
+              if(getFieldName(item.fieldType)!=undefined){
+                mrz[getFieldName(item.fieldType)]= item.value; 
+              }           
             }
-            result = {
+           result = {
               status: true,
               data: mrz
             }
