@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
   const mrz={};
   var result = {
     status: false,
-    data: data
+    data: null
   }
   await axios.post('https://api.regulaforensics.com/api/process', data,{timeout: 30000})
       .then((res) => {
